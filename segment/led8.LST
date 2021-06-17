@@ -1,0 +1,77 @@
+C51 COMPILER V7.06   LED8                                                                  06/18/2021 00:15:12 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE LED8
+OBJECT MODULE PLACED IN led8.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE led8.c BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          //
+   2          // Created by clare on 2021/6/17.
+   3          //
+   4          
+   5          
+   6          
+   7          #include <reg52.h>
+   8          void delay1(int time);
+   9          
+  10          char LED1[] = {0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90};
+  11          #define dp P0;
+  12          //位锁存
+  13          sbit LATCH1=P2^2;
+  14          //段锁存
+  15          sbit LATCH2=P2^3;
+  16          
+  17          char light = 0x0;
+  18          
+  19          int main() {
+  20   1      
+  21   1          int i;
+  22   1          // 1111 1110 第0 位
+  23   1          P0=0xfe;
+  24   1          // 打开位锁存
+  25   1          LATCH1=1;
+  26   1          // 关闭
+  27   1          LATCH1=0;
+  28   1      
+  29   1          while (1) {
+  30   2              for (i = 0; i < sizeof(LED1); ++i) {
+  31   3                  // 段锁存
+  32   3                  P0=~LED1[i];
+  33   3                  LATCH2=1;
+  34   3                  LATCH2=0;
+  35   3                  delay1(30000);
+  36   3                  P0=light;
+  37   3                  LATCH2=1;
+  38   3                  LATCH2=0;
+  39   3                  delay1(30000);
+  40   3              }
+  41   2      
+  42   2          }
+  43   1          return 0;
+  44   1      }
+  45          
+  46          
+  47          void delay1(int j) {
+  48   1          unsigned int i;
+  49   1          for(i=0;i<j;i++);
+  50   1      
+  51   1      }
+  52          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V7.06   LED8                                                                  06/18/2021 00:15:12 PAGE 2   
+
+   CODE SIZE        =     77    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

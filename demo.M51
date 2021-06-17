@@ -1,0 +1,109 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        06/18/2021  00:03:33  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE led8.obj TO demo RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  led8.obj (LED8)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  demo (LED8)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000BH     UNIT         ?DT?LED8
+            IDATA   0013H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0029H     UNIT         ?PR?MAIN?LED8
+            CODE    00B8H     0012H     UNIT         ?PR?_DELAY?LED8
+            CODE    00CAH     0010H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   demo (LED8)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?LED8
+  +--> ?C_INITSEG
+
+
+
+SYMBOL TABLE OF MODULE:  demo (LED8)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LED8
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:0008H         PUBLIC        LED1
+  D:00A8H         PUBLIC        IE
+BL51 BANKED LINKER/LOCATER V5.03                                                      06/18/2021  00:03:33  PAGE 2
+
+
+  D:00B8H         PUBLIC        IP
+  D:0012H         PUBLIC        light
+  B:00A0H.2       PUBLIC        LATCH1
+  B:00A0H.3       PUBLIC        LATCH2
+  C:008FH         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  C:00B8H         PUBLIC        _delay
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:008FH         LINE#         19
+  C:008FH         LINE#         23
+  C:0092H         LINE#         25
+  C:0094H         LINE#         27
+  C:0096H         LINE#         28
+  C:0099H         LINE#         30
+  C:00A0H         LINE#         31
+  C:00A2H         LINE#         32
+  C:00A4H         LINE#         34
+  C:00A7H         LINE#         35
+  C:00A9H         LINE#         36
+  C:00ABH         LINE#         38
+  C:00B6H         LINE#         42
+  C:00B6H         LINE#         43
+  -------         ENDPROC       MAIN
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        j
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+  C:00B8H         LINE#         48
+  C:00B8H         LINE#         50
+  C:00C9H         LINE#         52
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        LED8
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?LED8
+
+Program Size: data=20.0 xdata=0 code=218
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,152 @@
+C51 COMPILER V7.06   CALCULATOR                                                            06/19/2021 22:49:44 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE CALCULATOR
+OBJECT MODULE PLACED IN .\calculator.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\calculator\calculator.c BROWSE DEBUG OBJECTEXTEND PRINT(.\calculator.lst
+                    -) OBJECT(.\calculator.obj)
+
+stmt level    source
+
+   1          //
+   2          // Created by clare on 2021/6/19.
+   3          //
+   4          
+   5          
+   6          #include <reg52.h>
+   7          #include <stdio.h>
+   8          
+   9          
+  10          char LED1[] = {0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90};
+  11          
+  12          void set_key();
+  13          //位锁存
+  14          sbit LATCH1=P2^2;
+  15          //段锁存
+  16          sbit LATCH2=P2^3;
+  17          
+  18          char light = 0x0;
+  19          
+  20          // 初始化定时器
+  21          void Init_Time();
+  22          // 中断
+  23          void Timer_isr();
+  24          
+  25          void set(int dtt);
+  26          
+  27          void display(char i, char value);
+  28          
+  29          void delay(int i);
+  30           
+  31          #define SLEEP 3000
+  32          
+  33          int DATA;
+  34          int main() {
+  35   1          DATA = 56;
+  36   1         Init_Time();
+  37   1          while (1) {
+  38   2              set_key();
+  39   2          }
+  40   1      }
+  41          
+  42          
+  43          
+  44          //定时器1
+  45          void Init_Time() {
+  46   1          TMOD |= 0x01;         //使用模式1，16位定时器，使用"|"符号可以在使用多个定时器时不
+             -受影响
+  47   1          //TH0=0x00;       //给定初值
+  48   1          //TL0=0x00;
+  49   1          EA=1;            //总中断打开
+  50   1          ET0=1;           //定时器中断打开
+  51   1          TR0=1;           //定时器开关打开
+  52   1      }
+  53          
+C51 COMPILER V7.06   CALCULATOR                                                            06/19/2021 22:49:44 PAGE 2   
+
+  54          void Timer_isr() interrupt 1 using 1 {
+  55   1          TH0=(65536-10000)/256;                //重新赋值 2ms
+  56   1          TL0=(65536-10000)%256;
+  57   1          set(DATA);
+  58   1      }
+  59          
+  60          //位锁存
+  61          char w[]={0xfe, 0xfd, 0xfb, 0xf7, 0xef, 0xdf, 0xbf, 0x7f};
+  62          
+  63          // 显示
+  64          void display(char i, char value) {
+  65   1          P0=w[7-i];
+  66   1          LATCH1=1;
+  67   1          LATCH1=0;
+  68   1          P0=~LED1[value];
+  69   1          LATCH2=1;
+  70   1          LATCH2=0;
+  71   1      }
+  72          
+  73          void set(int dtt) {
+  74   1          int d = dtt;
+  75   1          char w=0;
+  76   1          while (1) {
+  77   2              if (d < 10) {
+  78   3                  display(w, d);
+  79   3                  delay(200);
+  80   3                  return;
+  81   3              }
+  82   2              display(w, d%10);
+  83   2              d=d/10;
+  84   2              w++;
+  85   2              delay(200);
+  86   2          }
+  87   1      }
+  88          
+  89          
+  90          void delay(int j) {
+  91   1          unsigned int i;
+  92   1          for(i=0;i<j;i++);
+  93   1      
+  94   1      }
+  95          
+  96          sbit KEY1=P1^0;
+  97          sbit KEY2=P1^1;
+  98          
+  99          void set_key() {
+ 100   1          if (KEY1==0) {
+ 101   2              delay(20);
+ 102   2              if (KEY1 == 0) {
+ 103   3                  while (1) {
+ 104   4                      if (KEY1 == 1) {
+ 105   5                          DATA++;
+ 106   5                          return;
+ 107   5                      }
+ 108   4                  }
+ 109   3              }
+ 110   2          }
+ 111   1      
+ 112   1          if (KEY2==0) {
+ 113   2              delay(20);
+ 114   2              if (KEY2 == 0) {
+ 115   3                  while (1) {
+C51 COMPILER V7.06   CALCULATOR                                                            06/19/2021 22:49:44 PAGE 3   
+
+ 116   4                      if (KEY2 == 1) {
+ 117   5                          DATA--;
+ 118   5                          return;
+ 119   5                      }
+ 120   4                  }
+ 121   3              }
+ 122   2          }
+ 123   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    232    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     21       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,1 @@
+"..\key\key1.c" BROWSE DEBUG OBJECTEXTEND PRINT(.\key1.lst) OBJECT(.\key1.obj)

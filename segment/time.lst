@@ -1,0 +1,79 @@
+C51 COMPILER V7.06   TIME                                                                  06/19/2021 17:24:44 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE TIME
+OBJECT MODULE PLACED IN .\time.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\time\time.c BROWSE DEBUG OBJECTEXTEND PRINT(.\time.lst) OBJECT(.\time.ob
+                    -j)
+
+stmt level    source
+
+   1          //
+   2          // Created by clare on 2021/6/19.
+   3          //
+   4          
+   5          #include <reg52.h>
+   6          
+   7          void Init_Time();
+   8          void Timer_isr1();
+   9          void Timer_isr();
+  10          sbit LED = P0^1;
+  11          
+  12          void Init_Time1();
+  13          
+  14          int main() {
+  15   1          Init_Time1();
+  16   1          while (1) {
+  17   2      
+  18   2          }
+  19   1      }
+  20          
+  21          //定时器1
+  22          void Init_Time() {
+  23   1          TMOD |= 0x01;
+  24   1          TH0 = 0x00;
+  25   1          TL0=0x00;
+  26   1          EA=1;
+  27   1          ET0=1;
+  28   1          TR0=1;
+  29   1      }
+  30          
+  31          // 定时器2
+  32          
+  33          int Sleep_Time=2000;
+  34          
+  35          void Init_Time1() {
+  36   1          RCAP2H = (65536-Sleep_Time)/256;
+  37   1          RCAP2L = (65536-Sleep_Time)%256;
+  38   1          ET2=1;
+  39   1          EA=1;
+  40   1          TR2=1;
+  41   1      }
+  42          
+  43          void Timer_isr() interrupt 1 using 1 {
+  44   1          TH0 = 0x00;
+  45   1          TL0=0x00;
+  46   1          LED = ~LED;
+  47   1      }
+  48          
+  49          
+  50          void Timer_isr1() interrupt 5 using 1 {
+  51   1          TF2=0;
+  52   1          LED = ~LED;
+  53   1      }
+
+C51 COMPILER V7.06   TIME                                                                  06/19/2021 17:24:44 PAGE 2   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    121    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
